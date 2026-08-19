@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR Pitch Assistant</title>
+</head>
+<body>
+
+    <h1>PR Pitch Assistant</h1>
+
+    <label>Company Name</label><br>
+    <input type="text" id="company_name"><br><br>
+
+    <label>Product</label><br>
+    <input type="text" id="product"><br><br>
+
+    <label>Target Audience</label><br>
+    <input type="text" id="target_audience"><br><br>
+
+    <label>Key Message</label><br>
+    <textarea id="key_message"></textarea><br><br>
+
+<button onclick="generatePitch()">Generate Pitch</button>
+
+<h2>Generated Pitch</h2>
+<pre id="result"></pre>
+
+<script>
+async function generatePitch() {
+    const data = {
+        company_name: document.getElementById("company_name").value,
+        product: document.getElementById("product").value,
+        target_audience: document.getElementById("target_audience").value,
+        key_message: document.getElementById("key_message").value
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/generate-pitch", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    document.getElementById("result").textContent = result.pitch;
+}
+</script>
+    
+
+</body>
+</html>
+
