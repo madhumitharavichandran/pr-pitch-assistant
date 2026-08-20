@@ -21,6 +21,7 @@ class PitchRequest(BaseModel):
     product: str
     target_audience: str
     key_message: str
+    tone: str
 
 @app.get("/")
 def home():
@@ -31,12 +32,13 @@ def generate_pitch(data: PitchRequest):
     prompt = f"""
 You are a professional PR outreach assistant.
 
-Write a short, professional and persuasive PR pitch email.
+Write a short, persuasive PR pitch email.
 
 Company: {data.company_name}
 Product: {data.product}
 Target Audience: {data.target_audience}
 Key Message: {data.key_message}
+Tone: {data.tone}
 
 Include:
 - A compelling subject line
@@ -45,6 +47,7 @@ Include:
 - Why it matters to the target audience
 - A polite call to action
 
+Follow the requested tone.
 Keep the email concise and professional.
 """
 
@@ -60,7 +63,49 @@ Keep the email concise and professional.
         }
 
     except Exception:
-        fallback_pitch = f"""
+
+        if data.tone == "friendly":
+            fallback_pitch = f"""
+Subject: A story your audience might love — {data.company_name}
+
+Hi there,
+
+I wanted to share something exciting from {data.company_name}.
+
+Our {data.product} is designed especially for {data.target_audience}, with one simple goal:
+
+{data.key_message}
+
+We think this could be a great fit for your audience and would love to share more details with you.
+
+Looking forward to hearing from you!
+
+Best,
+PR Team
+"""
+
+        elif data.tone == "bold":
+            fallback_pitch = f"""
+Subject: {data.company_name} is changing the way {data.target_audience} work
+
+Hello,
+
+Meet {data.company_name}.
+
+Our {data.product} is built to make a real difference for {data.target_audience}.
+
+The idea is simple:
+
+{data.key_message}
+
+We believe this is a story worth talking about. We'd be happy to provide more information or arrange a conversation.
+
+Best regards,
+PR Team
+"""
+
+        else:
+            fallback_pitch = f"""
 Subject: PR Opportunity for {data.company_name}
 
 Hello,

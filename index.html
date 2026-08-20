@@ -145,7 +145,8 @@
     }
 
     input,
-    textarea {
+    textarea,
+    select {
         width: 100%;
         border: 1px solid rgba(100,116,139,0.42);
         background: rgba(2,6,23,0.72);
@@ -164,7 +165,8 @@
     }
 
     input:focus,
-    textarea:focus {
+    textarea:focus,
+    select:focus {
         border-color: #818cf8;
         background: rgba(15,23,42,0.95);
         box-shadow:
@@ -407,14 +409,23 @@
                     placeholder="What is the one message you want the audience to remember?"
                 ></textarea>
             </div>
+         <div class="field">
+    <label for="tone">Pitch Tone</label>
+    <select id="tone">
+        <option value="professional">Professional</option>
+        <option value="friendly">Friendly</option>
+        <option value="bold">Bold</option>
+    </select>
+</div>
 
-            <button
-                id="generateButton"
-                class="generate-btn"
-                onclick="generatePitch()"
-            >
-                Generate PR Pitch
-            </button>
+<button 
+    id="generateButton" 
+    class="generate-btn" 
+    onclick="generatePitch()"
+>
+    Generate PR Pitch
+</button>
+            
         </div>
 
         <div class="card result-card">
@@ -451,6 +462,7 @@ async function generatePitch() {
     const product = document.getElementById("product").value.trim();
     const targetAudience = document.getElementById("target_audience").value.trim();
     const keyMessage = document.getElementById("key_message").value.trim();
+    const tone = document.getElementById("tone").value;
 
     const resultBox = document.getElementById("result");
     const status = document.getElementById("status");
@@ -465,7 +477,8 @@ async function generatePitch() {
         company_name: companyName,
         product: product,
         target_audience: targetAudience,
-        key_message: keyMessage
+        key_message: keyMessage,
+        tone: tone
     };
 
     button.disabled = true;
